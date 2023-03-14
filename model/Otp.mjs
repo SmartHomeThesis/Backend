@@ -17,8 +17,8 @@ export default (sequelize, DataTypes) => {
             require: true
         },
         expires: {
-            type: Sequelize.DATE,
-            defaultValue: Date.now() + 300000
+            type: DataTypes.DATE,
+            default: Date.now() + 300000
 
         }
     }, { freezeTableName: true, timestamps: true })

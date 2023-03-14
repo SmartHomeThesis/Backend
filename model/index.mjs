@@ -6,9 +6,7 @@ import Otp from './Otp.mjs';
 dotenv.config()
 
 const sequelize = new Sequelize(
-    process.env.DATABASE,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
+    'mysql://root:lf26gGKdBHffcF3sgUG2@containers-us-west-205.railway.app:6918/railway',
     {
         host: process.env.DB_HOST,
         dialect: 'mysql',
@@ -22,13 +20,14 @@ const sequelize = new Sequelize(
     }
 )
 
-sequelize.authenticate()
+sequelize
+    .authenticate()
     .then(() => {
-        console.log('Connected')
+        console.log('Connection has been established successfully.');
     })
     .catch(err => {
-        console.log('Error: ' + err)
-    })
+        console.error('Unable to connect to the database:', err);
+    });
 
 const db = {}
 

@@ -19,5 +19,5 @@ app.use(morgan('dev'))
 app.use('/api', route)
 
 server.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.DB_PORT}`)
+    console.log(`Server is running on port ${process.env.PORT}`)
 })

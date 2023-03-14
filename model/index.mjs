@@ -1,21 +1,23 @@
-import dbConfig from '../config/db.mjs';
+import * as dotenv from 'dotenv'
 import User from '../model/User.mjs';
 import { Sequelize, DataTypes } from 'sequelize';
 import Otp from './Otp.mjs';
 
-const sequelize = new Sequelize(
-    dbConfig.DB,
-    dbConfig.USER,
-    dbConfig.PASSWORD,
-    {
-        host: dbConfig.HOST,
-        dialect: dbConfig.dialect,
-        pool: {
-            max: dbConfig.pool.max,
-            min: dbConfig.pool.min,
-            acquire: dbConfig.pool.acquire,
-            idle: dbConfig.pool.idle
+dotenv.config()
 
+const sequelize = new Sequelize(
+    process.env.DB,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+        host: process.env.DB_HOST,
+        dialect: process.env.DB_DIALECT,
+        pool: {
+            max: 15,
+            min: 5,
+            idle: 20000,
+            evict: 15000,
+            acquire: 30000
         }
     }
 )

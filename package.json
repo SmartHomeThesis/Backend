@@ -24,6 +24,8 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.21",
     "otp-generator": "^4.0.1",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
     "sequelize": "^6.29.1"
   }
 }

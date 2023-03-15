@@ -4,7 +4,6 @@ import cp from 'cookie-parser'
 import morgan from 'morgan'
 import * as dotenv from 'dotenv'
 import http from 'http'
-import passport from 'passport'
 import route from './route/index.mjs'
 
 dotenv.config()
@@ -16,8 +15,6 @@ app.use(bp.urlencoded({ extended: true }))
 app.use(bp.json())
 app.use(cp())
 app.use(morgan('dev'))
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/api', route)
 

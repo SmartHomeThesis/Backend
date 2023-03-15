@@ -111,7 +111,6 @@ const authController = {
 
     logout: async (req, res) => {
         res.clearCookie('refreshToken')
-        req.logout()
         res.status(200).json({ message: 'Logout successfully' })
     },
 

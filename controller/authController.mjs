@@ -115,7 +115,7 @@ const authController = {
         res.status(200).json({ message: 'Logout successfully' })
     },
 
-    resetPassword: async (req, res) => {
+    forgotPassword: async (req, res) => {
         try {
             const existedEmail = User.findOne({ where: { email: req.body.email } })
             if (!existedEmail) return res.status(404).json('Email is not valid')

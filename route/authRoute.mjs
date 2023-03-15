@@ -8,7 +8,7 @@ route.post('/register', authController.register)
 route.post('/login', authController.login)
 route.post('/logout', verifyToken, authController.logout)
 route.post('/refresh-token', authController.requestToken)
-route.post('/forgot-password', authController.resetPassword)
+route.post('/forgot-password', authController.forgotPassword)
 route.post('/verify-otp', authController.verifyOtp)
 
 export default route

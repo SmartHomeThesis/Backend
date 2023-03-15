@@ -41,7 +41,8 @@ const authController = {
             })
 
             res.status(200).json({
-                message: 'Resgister successfully',
+                status: '200',
+                message: 'SUCCESS',
                 data: newUser
             })
         } catch (err) {
@@ -71,7 +72,8 @@ const authController = {
                 })
 
                 res.status(200).json({
-                    message: 'Login successfully',
+                    status: '200',
+                    message: 'SUCCESS',
                     data: { user, accessToken }
                 })
             }
@@ -99,7 +101,11 @@ const authController = {
                 sameSite: 'strict'
             })
 
-            res.status(200).json({ accessToken: accessToken })
+            res.status(200).json({
+                status: '200',
+                message: 'SUCCESS',
+                accessToken: accessToken
+            })
         })
     },
 
@@ -115,7 +121,7 @@ const authController = {
             if (!existedEmail) return res.status(404).json('Email is not valid')
 
             const OTP = generateOTP(6)
-            // mailController.sendResetEmail(req.body.email, OTP)
+            mailController.sendResetEmail(req.body.email, OTP)
 
             const otp = await Otp.build({ email: req.body.email, otp: OTP })
             const salt = await bcrypt.genSalt(10)
@@ -123,7 +129,11 @@ const authController = {
 
             await otp.save()
 
-            res.status(200).json(otp)
+            res.status(200).json({
+                status: '200',
+                message: 'SUCCESS',
+                OTP: otp
+            })
         } catch (err) {
             res.status(500).json({ message: err.message })
         }
@@ -143,7 +153,10 @@ const authController = {
             if (otpCheck.email === req.body.email && validUser) {
                 await Otp.destroy({ where: { email: req.body.email }, force: true })
             }
-            res.status(200).json({ message: 'SUCCESS' })
+            res.status(200).json({
+                status: '200',
+                message: 'SUCCESS'
+            })
         } catch (err) {
             res.status(500).json({ message: err.message })
         }

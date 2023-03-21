@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     process.env.DB_URL,
     {
         host: process.env.DB_HOST,
-        dialect: 'mysql',
+        dialect: process.env.DB_DIALECT,
         pool: {
             max: 15,
             min: 5,

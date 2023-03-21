@@ -21,14 +21,6 @@ export default (sequelize, DataTypes) => {
         role: {
             type: DataTypes.STRING,
             defaultValue: 'Host'
-        },
-        createdAt: {
-            type: 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-            field: 'created_at'
-        },
-        updatedAt: {
-            type: 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-            field: 'updated_at'
         }
     }, { freezeTableName: true, timestamps: true })
 

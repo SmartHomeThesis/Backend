@@ -6,24 +6,23 @@ const verifyToken = async (req, res, next) => {
         const accessToken = token
         jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
             if (err)
-                return res.status(403).json({ message: 'Token is invalid' })
+                return res.status(403).json({ msg: 'Token is invalid' })
             req.user = user
             next()
         })
     } else {
-        res.status(401).json({ message: 'You are not authenticated' })
+        res.status(401).json({ msg: 'You are not authenticated' })
     }
 }
 
-const verifyTokenAndAdmin = async (req, res, next) => {
+const verifyTokenAndHost = async (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.permission === 'admin') {
+        if (req.user.role === 'host') {
             next()
         } else {
-            console.log(req.user.permission)
             res.status(403).json({ message: 'You are not allowed to do that' })
         }
     })
 }
 
-export { verifyToken, verifyTokenAndAdmin }
+export { verifyToken, verifyTokenAndHost }

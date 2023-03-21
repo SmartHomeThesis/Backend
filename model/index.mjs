@@ -1,12 +1,13 @@
-import * as dotenv from 'dotenv'
-import User from '../model/User.mjs';
 import { Sequelize, DataTypes } from 'sequelize';
+import dotenv from 'dotenv'
+import User from '../model/User.mjs';
 import Otp from './Otp.mjs';
+import Permission from './Permission.mjs';
 
 dotenv.config()
 
 const sequelize = new Sequelize(
-    'mysql://root:lf26gGKdBHffcF3sgUG2@containers-us-west-205.railway.app:6918/railway',
+    process.env.DB_URL,
     {
         host: process.env.DB_HOST,
         dialect: 'mysql',
@@ -20,13 +21,12 @@ const sequelize = new Sequelize(
     }
 )
 
-sequelize
-    .authenticate()
+sequelize.authenticate()
     .then(() => {
-        console.log('Connection has been established successfully.');
+        console.log('Connection has been established successfully');
     })
     .catch(err => {
-        console.error('Unable to connect to the database:', err);
+        console.error('Unable to connect to the database: ', err);
     });
 
 const db = {}
@@ -36,8 +36,12 @@ db.sequelize = sequelize
 
 db.user = User(sequelize, DataTypes)
 db.otp = Otp(sequelize, DataTypes)
+db.permission = Permission(sequelize, DataTypes)
 
-db.sequelize.sync({ force: false })
+db.user.belongsToMany(db.permission, { through: 'user_permission' })
+db.permission.belongsToMany(db.user, { through: 'user_permission' })
+
+db.sequelize.sync({ force: true, alter: true })
     .then(() => {
         console.log('Sync done')
     })

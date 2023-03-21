@@ -14,7 +14,7 @@ const server = http.createServer(app)
 app.use(bp.urlencoded({ extended: true }))
 app.use(bp.json())
 app.use(cp())
-app.use(morgan('dev'))
+app.use(morgan('product'))
 
 app.use('/api', route)
 

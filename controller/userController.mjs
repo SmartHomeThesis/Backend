@@ -72,7 +72,7 @@ const userController = {
         }
     },
 
-    createPermission: async (req, res) => {
+    addPermission: async (req, res) => {
         try {
             const user = await User.findByPk(req.params.user_id)
             const permission = await Permission.findByPk(req.params.permission_id)

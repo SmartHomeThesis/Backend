@@ -41,7 +41,7 @@ db.permission = Permission(sequelize, DataTypes)
 db.user.belongsToMany(db.permission, { through: 'user_permission' })
 db.permission.belongsToMany(db.user, { through: 'user_permission' })
 
-db.sequelize.sync({ force: true, alter: true })
+db.sequelize.sync({ force: false, alter: true })
     .then(() => {
         console.log('Sync done')
     })

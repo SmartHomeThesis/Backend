@@ -11,7 +11,7 @@ route.post('/members', verifyTokenAndHost, userController.inviteNewMember)
 route.get('/permissions', userController.getAllPermissions)
 route.get('/permissions/:id', userController.getPermissionById)
 route.post('/permissions', userController.createPermission)
-route.post('/:user_id/permissions/:permission_id', userController.createPermission)
+route.post('/:user_id/permissions/:permission_id', userController.addPermission)
 
 
 export default route

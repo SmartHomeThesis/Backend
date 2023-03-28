@@ -10,52 +10,6 @@ const Permission = db.permission
 
 
 const userController = {
-    getAllPermissions: async (req, res) => {
-        try {
-            const permissions = await Permission.findAll()
-            if (!permissions) return res.status(404).json({ msg: 'Not found permission' })
-
-            res.json({
-                status: 200,
-                msg: 'SUCCESS',
-                data: permissions
-            })
-        } catch (error) {
-            res.status(500).json({ msg: error.message })
-        }
-    },
-
-    getPermissionById: async (req, res) => {
-        try {
-            const permission = await Permission.findByPk(req.params.id)
-            if (!permission) return res.status(404).json({ msg: 'Not found permission' })
-
-            res.json({
-                status: 200,
-                msg: 'SUCCESS',
-                data: permission
-            })
-        } catch (error) {
-            res.status(500).json({ msg: error.message })
-        }
-    },
-
-
-    createPermission: async (req, res) => {
-        try {
-            const _permission = await Permission.create({
-                permission: req.body.permission
-            })
-
-            res.json({
-                status: 200,
-                msg: 'SUCCESS',
-                data: _permission
-            })
-        } catch (error) {
-            res.status(500).json({ msg: error.message })
-        }
-    },
 
     getAllUsers: async (req, res) => {
         try {
@@ -72,16 +26,34 @@ const userController = {
         }
     },
 
-    addPermission: async (req, res) => {
+    addPermissionForMember: async (req, res) => {
         try {
             const user = await User.findByPk(req.params.user_id)
-            const permission = await Permission.findByPk(req.params.permission_id)
-            const user_permission = user.addPermission(permission)
+            const listOfPermission = req.body.permission
+
+            for (let index = 0; index < listOfPermission.length; index++) {
+                let permission = await Permission.findByPk(listOfPermission[index])
+                await user.addPermission(permission)
+            }
 
             res.json({
                 status: 200,
                 msg: 'SUCCESS',
-                data: user_permission
+                data: user
+            })
+        } catch (error) {
+            res.status(500).json({ msg: error.message })
+        }
+    },
+
+    getPermissionOfMemberById: async (req, res) => {
+        try {
+            const user = await User.findByPk(req.params.id, { include: Permission })
+
+            res.json({
+                status: 200,
+                msg: 'SUCCESS',
+                data: user
             })
         } catch (error) {
             res.status(500).json({ msg: error.message })

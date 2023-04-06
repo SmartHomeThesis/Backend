@@ -2,7 +2,6 @@ import express from 'express'
 import authRoute from './authRoute.mjs'
 import userRoute from './userRoute.mjs'
 import permissionRoute from './permissionRoute.mjs'
-import adafruitRoute from './adafruitRoute.mjs'
 
 
 const route = express.Router()

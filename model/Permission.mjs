@@ -9,7 +9,7 @@ export default (sequelize, DataTypes) => {
         permission: {
             type: DataTypes.STRING
         }
-    }, { freezeTableName: true, timestamps: true })
+    }, { freezeTableName: true })
 
     return Permission
 }

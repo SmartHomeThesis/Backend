@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken'
+
 const generateAccessToken = async (user) => {
     return jwt.sign(
         { id: user.id, role: user.role },

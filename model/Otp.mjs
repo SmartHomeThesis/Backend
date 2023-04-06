@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
             defaultValue: Date.now() + 300000
 
         }
-    }, { freezeTableName: true, timestamps: true })
+    }, { freezeTableName: true })
 
     return Otp
 }

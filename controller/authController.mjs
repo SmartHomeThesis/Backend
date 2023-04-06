@@ -43,8 +43,8 @@ const authController = {
                 return res.status(404).json('Password is not correct')
 
             if (user && validPassword) {
-                const accessToken = generateAccessToken(user)
-                const refreshToken = generateRefreshToken(user)
+                const accessToken = await generateAccessToken(user)
+                const refreshToken = await generateRefreshToken(user)
 
                 res.cookie('refreshToken', refreshToken, {
                     httpOnly: true,

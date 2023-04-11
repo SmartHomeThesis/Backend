@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import User from '../model/User.mjs';
 import Otp from './Otp.mjs';
 import Permission from './Permission.mjs';
+import Device from './Device.mjs'
 
 dotenv.config()
 
@@ -34,17 +35,15 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.user = User(sequelize, DataTypes)
-db.otp = Otp(sequelize, DataTypes)
-db.permission = Permission(sequelize, DataTypes)
+db.users = User(sequelize, DataTypes)
+db.otps = Otp(sequelize, DataTypes)
+db.permissions = Permission(sequelize, DataTypes)
+db.devices = Device(sequelize, DataTypes)
 
-db.user.belongsToMany(db.permission, { through: 'user_permission' })
-db.permission.belongsToMany(db.user, { through: 'user_permission' })
+db.users.belongsToMany(db.permissions, { through: 'user_permission' })
+db.permissions.belongsToMany(db.users, { through: 'user_permission' })
 
 db.sequelize.sync({ force: false, alter: true })
-    .then(() => {
-        console.log('Sync done')
-    })
 
 
 export default db

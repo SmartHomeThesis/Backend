@@ -17,7 +17,7 @@ const verifyToken = async (req, res, next) => {
 
 const verifyTokenAndHost = async (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.role === 'host') {
+        if (req.user.role === 'Host') {
             next()
         } else {
             res.status(403).json({ message: 'You are not allowed to do that' })

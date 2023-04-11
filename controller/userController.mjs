@@ -1,13 +1,17 @@
 import bcrypt from 'bcrypt'
+import schedule from 'node-schedule'
+import EventEmitter from 'events'
 import db from '../model/index.mjs'
 import generateOTP from '../util/generateOTP.mjs'
 import mailController from './mailController.mjs'
+import adafruitService from '../service/adafruitService.mjs'
 
 
-const Otp = db.otp
-const User = db.user
-const Permission = db.permission
+const Otp = db.otps
+const User = db.users
+const Permission = db.permissions
 
+const event = new EventEmitter();
 
 const userController = {
 
@@ -76,6 +80,30 @@ const userController = {
             res.json({ msg: 'Send invitation email successfully' })
         } catch (error) {
             res.status(500).json({ msg: error.message })
+        }
+    },
+
+    sheduleDevice: async (req, res) => {
+        try {
+            const feed = req.body.feed
+            const value = req.body.value
+
+            const Time = new Date(req.body.time)
+            const schedule_device = schedule.scheduleJob(Time, async () => {
+                await adafruitService.sendData(feed, value)
+                event.emit('Job Done')
+            })
+
+            event.on('Job Done', () => {
+                schedule_device.cancel()
+            })
+
+            res.json({
+                status: 200,
+                msg: 'Schedule successfully'
+            })
+        } catch (error) {
+            res.json({ msg: error.message })
         }
     }
 }

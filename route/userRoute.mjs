@@ -5,10 +5,12 @@ import { verifyTokenAndHost } from '../middleware/tokenVerify.mjs'
 const route = express.Router()
 
 route.get('/', verifyTokenAndHost, userController.getAllUsers)
-route.post('/members', verifyTokenAndHost, userController.inviteNewMember)
+route.post('/send-invitation', verifyTokenAndHost, userController.inviteNewMember)
 
-route.post('/:id/permissions', userController.getPermissionOfMemberById)
+route.get('/:id/permissions', userController.getPermissionOfMemberById)
 route.post('/:user_id/permissions', userController.addPermissionForMember)
+
+route.post('/devices', userController.sheduleDevice)
 
 
 export default route

@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import * as dotenv from 'dotenv'
 import http from 'http'
 import route from './route/index.mjs'
+import deviceService from './service/deviceService.mjs'
 
 dotenv.config()
 
@@ -17,6 +18,11 @@ app.use(cp())
 app.use(morgan('dev'))
 
 app.use('/api', route)
+
+// Auto calculate power consumption
+let cronExpress = '0 */1 * * *'
+// schedule.scheduleJob(cronExpress, () => { deviceService.calculatePowerConsumption(feed) })
+deviceService.calculatePowerConsumption('smart-home.light')
 
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`)

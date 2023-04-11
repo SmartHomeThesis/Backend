@@ -5,8 +5,8 @@ import generateOTP from '../util/generateOTP.mjs'
 import mailController from './mailController.mjs'
 import { generateAccessToken, generateRefreshToken } from '../util/generateToken.mjs'
 
-const User = db.user
-const Otp = db.otp
+const User = db.users
+const Otp = db.otps
 
 const authController = {
     register: async (req, res) => {

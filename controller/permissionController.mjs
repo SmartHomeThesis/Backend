@@ -1,6 +1,6 @@
 import db from "../model/index.mjs"
 
-const Permission = db.permission
+const Permission = db.permissions
 
 const permissionController = {
     getAllPermissions: async (req, res) => {

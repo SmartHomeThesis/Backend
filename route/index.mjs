@@ -2,6 +2,7 @@ import express from 'express'
 import authRoute from './authRoute.mjs'
 import userRoute from './userRoute.mjs'
 import permissionRoute from './permissionRoute.mjs'
+import deviceRoute from './deviceRoute.mjs'
 
 
 const route = express.Router()
@@ -9,5 +10,6 @@ const route = express.Router()
 route.use('/auth', authRoute)
 route.use('/users', userRoute)
 route.use('/permissions', permissionRoute)
+route.use('/devices', deviceRoute)
 
 export default route

@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt'
 import db from "../model/index.mjs"
 
 
-const Otp = db.otp
+const Otp = db.otps
 
 const verifyOtp = async (req, res, next) => {
     const otp = await Otp.findAll({ where: { email: req.body.email } })
     if (otp.length === 0)
-        return res.status(400).json('You use an expired OTP')
+        return res.status(400).json('You do not have any OTP')
 
     const otpCheck = otp[otp.length - 1]
     if (otpCheck.expires < Date.now())

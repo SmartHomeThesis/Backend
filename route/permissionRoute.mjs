@@ -4,9 +4,9 @@ import permissionController from '../controller/permissionController.mjs'
 
 const route = express.Router()
 
-route.get('/permissions', permissionController.getAllPermissions)
-route.get('/permissions/:id', permissionController.getPermissionById)
-route.post('/permissions', permissionController.createPermission)
+route.get('/', permissionController.getAllPermissions)
+route.get('/:id', permissionController.getPermissionById)
+route.post('/', permissionController.createPermission)
 
 
 export default route

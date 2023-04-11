@@ -22,7 +22,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             defaultValue: 'Host'
         }
-    }, { freezeTableName: true })
+    }, { timestamps: false })
 
     return User
 }

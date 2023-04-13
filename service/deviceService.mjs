@@ -34,6 +34,6 @@ const deviceService = {
     }
 }
 
-
+deviceService.calculatePowerConsumption("smart-home.light")
 
 export default deviceService

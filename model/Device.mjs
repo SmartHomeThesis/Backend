@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
 
-    const Device = sequelize.define('device', {
+    const Device = sequelize.define('devices', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

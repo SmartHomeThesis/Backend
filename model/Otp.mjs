@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
 
-    const Otp = sequelize.define('otp', {
+    const Otp = sequelize.define('otps', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

@@ -1,6 +1,6 @@
 export default (sequelize, DataTypes) => {
 
-    const Permission = sequelize.define('permission', {
+    const Permission = sequelize.define('permissions', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

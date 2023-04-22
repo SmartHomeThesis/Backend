@@ -5,6 +5,7 @@ import Otp from './Otp.mjs';
 import Permission from './Permission.mjs';
 import Device from './Device.mjs'
 
+
 dotenv.config()
 
 const sequelize = new Sequelize(
@@ -21,6 +22,7 @@ const sequelize = new Sequelize(
         }
     }
 )
+
 
 sequelize.authenticate()
     .then(() => {

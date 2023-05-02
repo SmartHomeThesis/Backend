@@ -21,7 +21,6 @@ app.use('/api', route)
 
 // Auto calculate power consumption
 let cronExpress = '0 */1 * * *'
-// schedule.scheduleJob(cronExpress, () => { deviceService.calculatePowerConsumption(feed) })
 deviceService.calculatePowerConsumption('smart-home.light')
 
 server.listen(process.env.PORT, () => {

@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import db from '../model/index.mjs'
 import generateOTP from '../util/generateOTP.mjs'
+import { generateAccessToken } from '../util/generateToken.mjs'
 import mailController from './mailController.mjs'
-import { generateAccessToken, generateRefreshToken } from '../util/generateToken.mjs'
 
 const User = db.users
 const Otp = db.otps
@@ -28,7 +27,7 @@ const authController = {
                 data: _user
             })
         } catch (error) {
-            res.status(500).json({ message: error.message })
+            res.status(500).json({ msg: error.message })
         }
     },
 
@@ -36,22 +35,15 @@ const authController = {
         try {
             const user = await User.findOne({ where: { email: req.body.email } })
             if (!user)
-                return res.status(404).json('Email is not correct')
+                return res.status(404).json({ msg: 'Email is not correct' })
 
             const validPassword = await bcrypt.compare(req.body.password, user.password)
             if (!validPassword)
-                return res.status(404).json('Password is not correct')
+                return res.status(404).json({ msg: 'Password is not correct' })
 
             if (user && validPassword) {
                 const accessToken = await generateAccessToken(user)
-                const refreshToken = await generateRefreshToken(user)
 
-                res.cookie('refreshToken', refreshToken, {
-                    httpOnly: true,
-                    secure: true,
-                    path: '/',
-                    sameSite: 'strict'
-                })
 
                 res.json({
                     status: '200',
@@ -60,40 +52,13 @@ const authController = {
                 })
             }
         } catch (error) {
-            res.status(500).json({ message: error.message })
+            res.status(500).json({ msg: error.message })
         }
     },
 
     logout: async (req, res) => {
         res.clearCookie('refreshToken')
         res.json({ msg: 'Logout successfully' })
-    },
-
-    refreshToken: async (req, res) => {
-        const refreshToken = req.cookies.refreshToken
-        if (!refreshToken)
-            return res.status(401).json({ msg: 'You are not authenticated' })
-
-        jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
-            if (err)
-                return res.status(403).json({ msg: 'Refresh token is invalid' + err.message })
-
-            const accessToken = generateAccessToken(user)
-            const refreshToken = generateRefreshToken(user)
-
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                secure: true,
-                path: '/',
-                sameSite: 'strict'
-            })
-
-            res.json({
-                status: '200',
-                message: 'SUCCESS',
-                data: accessToken
-            })
-        })
     },
 
     forgotPassword: async (req, res) => {

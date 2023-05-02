@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt'
-import schedule from 'node-schedule'
 import EventEmitter from 'events'
+import schedule from 'node-schedule'
 import db from '../model/index.mjs'
+import adafruitService from '../service/adafruitService.mjs'
 import generateOTP from '../util/generateOTP.mjs'
 import mailController from './mailController.mjs'
-import adafruitService from '../service/adafruitService.mjs'
 
 
 const Otp = db.otps
@@ -50,15 +50,18 @@ const userController = {
         }
     },
 
-    getPermissionOfMemberById: async (req, res) => {
+    getPermissionOfMemberByUsername: async (req, res) => {
         try {
-            const user = await User.findByPk(req.params.id, { include: Permission })
+            const user = await User.findOne({ where: { username: req.params.username }, include: Permission })
+            console.log(user.permissions.length)
+            const user_response = {
+                name: user.username,
+                permission: 'Kitchen'
+            }
 
-            res.json({
-                status: 200,
-                msg: 'SUCCESS',
-                data: user
-            })
+            if (user.permissions.length == 3)
+                user_response.permission = 'All'
+            res.json(user_response)
         } catch (error) {
             res.status(500).json({ msg: error.message })
         }

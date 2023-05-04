@@ -50,6 +50,20 @@ const userController = {
         }
     },
 
+    getPermissionOfMemberById: async (req, res) => {
+        try {
+            const user = await User.findOne({ where: { id: req.params.id }, include: Permission })
+
+            res.json({
+                status: 200,
+                msg: 'SUCCESS',
+                data: user
+            })
+        } catch (error) {
+            res.status(500).json({ msg: error.message })
+        }
+    },
+
     getPermissionOfMemberByUsername: async (req, res) => {
         try {
             const user = await User.findOne({ where: { username: req.params.username }, include: Permission })

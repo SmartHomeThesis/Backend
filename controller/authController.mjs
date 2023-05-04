@@ -10,6 +10,10 @@ const Otp = db.otps
 const authController = {
     register: async (req, res) => {
         try {
+            const user = await User.findOne({ where: { email: req.body.email } })
+            if (user)
+                return res.status(409).json({ msg: 'Account is exist' })
+
             const salt = await bcrypt.genSalt(10)
             const hashed = await bcrypt.hash(req.body.password, salt)
 
@@ -21,10 +25,18 @@ const authController = {
                 role: 'Member'
             })
 
+            const user_reponse = {
+                id: _user.id,
+                username: _user.username,
+                email: _user.email,
+                phone: _user.phone,
+                role: _user.role
+            }
+
             res.json({
                 status: '200',
                 message: 'SUCCESS',
-                data: _user
+                data: user_reponse
             })
         } catch (error) {
             res.status(500).json({ msg: error.message })
@@ -43,12 +55,18 @@ const authController = {
 
             if (user && validPassword) {
                 const accessToken = await generateAccessToken(user)
-
+                const user_reponse = {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    phone: user.phone,
+                    role: user.role
+                }
 
                 res.json({
                     status: '200',
                     message: 'SUCCESS',
-                    data: { user, accessToken }
+                    data: { user_reponse, accessToken }
                 })
             }
         } catch (error) {
@@ -57,7 +75,6 @@ const authController = {
     },
 
     logout: async (req, res) => {
-        res.clearCookie('refreshToken')
         res.json({ msg: 'Logout successfully' })
     },
 

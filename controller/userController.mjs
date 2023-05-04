@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-import EventEmitter from 'events'
 import schedule from 'node-schedule'
 import db from '../model/index.mjs'
 import adafruitService from '../service/adafruitService.mjs'
@@ -11,13 +10,12 @@ const Otp = db.otps
 const User = db.users
 const Permission = db.permissions
 
-const event = new EventEmitter();
 
 const userController = {
 
     getAllUsers: async (req, res) => {
         try {
-            const users = await User.findAll()
+            const users = await User.findAll({ include: Permission })
             if (!users) return res.status(404).json({ msg: 'Not found user' })
 
             res.json({
@@ -32,12 +30,14 @@ const userController = {
 
     addPermissionForMember: async (req, res) => {
         try {
+
             const user = await User.findByPk(req.params.user_id)
             const listOfPermission = req.body.permission
 
             for (let index = 0; index < listOfPermission.length; index++) {
                 let permission = await Permission.findByPk(listOfPermission[index])
-                await user.addPermission(permission)
+                console.log(permission)
+                await user.addPermission(permission, { through: { selfGranted: false } })
             }
 
             res.json({

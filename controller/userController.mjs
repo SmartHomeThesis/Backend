@@ -64,23 +64,6 @@ const userController = {
         }
     },
 
-    getPermissionOfMemberByUsername: async (req, res) => {
-        try {
-            const user = await User.findOne({ where: { username: req.params.username }, include: Permission })
-            console.log(user.permissions.length)
-            const user_response = {
-                name: user.username,
-                permission: 'Kitchen'
-            }
-
-            if (user.permissions.length == 3)
-                user_response.permission = 'All'
-            res.json(user_response)
-        } catch (error) {
-            res.status(500).json({ msg: error.message })
-        }
-    },
-
     inviteNewMember: async (req, res) => {
         try {
             const user = await User.findOne({ where: { email: req.body.email } })

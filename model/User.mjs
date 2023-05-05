@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        username: {
+        name: {
             type: DataTypes.STRING
         },
         email: {

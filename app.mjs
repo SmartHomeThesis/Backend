@@ -18,7 +18,7 @@ app.use(bp.json())
 app.use(cp())
 app.use(morgan('dev'))
 
-app.use('/api', route)
+app.use('/', route)
 
 // Auto calculate power consumption
 let cronExpress = '0 */1 * * *'

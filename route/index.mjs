@@ -9,10 +9,10 @@ import utilRoute from './utilRoute.mjs'
 const route = express.Router()
 
 route.get('/', (req, res) => { res.send("WELCOME TO OUR SYSTEM") })
-route.use('/auth', authRoute)
-route.use('/users', userRoute)
-route.use('/permissions', permissionRoute)
-route.use('/devices', deviceRoute)
-route.use('/utils', utilRoute)
+route.use('/api/auth', authRoute)
+route.use('/api/users', userRoute)
+route.use('/api/permissions', permissionRoute)
+route.use('/api/devices', deviceRoute)
+route.use('/api/utils', utilRoute)
 
 export default route

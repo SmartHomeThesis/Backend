@@ -3,6 +3,7 @@ import schedule from 'node-schedule'
 import db from '../model/index.mjs'
 import adafruitService from '../service/adafruitService.mjs'
 import generateOTP from '../util/generateOTP.mjs'
+import validateEmail from '../util/mailService.mjs'
 import mailController from './mailController.mjs'
 
 
@@ -12,7 +13,6 @@ const Permission = db.permissions
 
 
 const userController = {
-
     getAllUsers: async (req, res) => {
         try {
             const users = await User.findAll({ include: Permission })
@@ -69,15 +69,19 @@ const userController = {
             const user = await User.findOne({ where: { email: req.body.email } })
             if (user) return res.status(409).json({ msg: 'User is existed' })
 
-            const OTP = generateOTP(6)
-            const salt = await bcrypt.genSalt(10)
-            const _OTP = await bcrypt.hash(OTP, salt)
+            if (validateEmail(req.body.email)) {
+                const OTP = generateOTP(6)
+                const salt = await bcrypt.genSalt(10)
+                const _OTP = await bcrypt.hash(OTP, salt)
 
-            await Otp.create({ email: req.body.email, otp: _OTP })
+                await Otp.create({ email: req.body.email, otp: _OTP })
 
-            mailController.sendInvitation(req.body.email, OTP)
+                mailController.sendInvitation(req.body.email, OTP)
 
-            res.json({ msg: 'Send invitation email successfully' })
+                return res.json({ msg: 'Send invitation email successfully' })
+            }
+
+            res.json({ msg: 'Email is not valid' })
         } catch (error) {
             res.status(500).json({ msg: error.message })
         }

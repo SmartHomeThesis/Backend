@@ -95,10 +95,10 @@ const userController = {
             const Time = new Date(req.body.time)
             const schedule_device = schedule.scheduleJob(Time, async () => {
                 await adafruitService.sendData(feed, value)
-                event.emit('Job Done')
+                Event.emit('Job Done')
             })
 
-            event.on('Job Done', () => {
+            Event.on('Job Done', () => {
                 schedule_device.cancel()
             })
 

@@ -40,7 +40,25 @@ const utilController = {
         } catch (error) {
             res.status(500).json({ msg: error.message })
         }
-    }
+    },
+
+    login: async (req, res) => {
+        try {
+            const user = await User.findOne({ where: { email: req.body.email } })
+            if (!user)
+                return res.status(404).json({ msg: 'Email is not correct' })
+
+            const validPassword = await bcrypt.compare(req.body.password, user.password)
+            if (!validPassword)
+                return res.status(404).json({ msg: 'Password is not correct' })
+
+            if (user && validPassword) {
+                res.json(user.name)
+            }
+        } catch (error) {
+            res.status(500).json({ msg: error.message })
+        }
+    },
 }
 
 

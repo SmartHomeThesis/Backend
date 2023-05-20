@@ -47,11 +47,11 @@ const utilController = {
         try {
             const user = await User.findOne({ where: { email: req.body.email } })
             if (!user)
-                return res.status(404).json({ msg: 'Email is not correct' })
+                return res.json("False")
 
             const validPassword = await bcrypt.compare(req.body.password, user.password)
             if (!validPassword)
-                return res.status(404).json({ msg: 'Password is not correct' })
+                return res.status(404).json("False")
 
             if (user && validPassword) {
                 res.json(user.name)

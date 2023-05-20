@@ -57,7 +57,7 @@ const authController = {
                 const accessToken = await generateAccessToken(user)
                 const user_reponse = {
                     id: user.id,
-                    username: user.username,
+                    username: user.name,
                     email: user.email,
                     phone: user.phone,
                     role: user.role

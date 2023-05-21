@@ -31,13 +31,13 @@ const userController = {
     addPermissionForMember: async (req, res) => {
         try {
 
-            const user = await User.findByPk(req.params.user_id)
+            const user = await User.findOne({ where: { id: req.params.user_id } })
+            await user.setPermissions([])
             const listOfPermission = req.body.permission
 
             for (let index = 0; index < listOfPermission.length; index++) {
                 let permission = await Permission.findByPk(listOfPermission[index])
-                console.log(permission)
-                await user.addPermission(permission, { through: { selfGranted: false } })
+                await user.addPermission(permission)
             }
 
             res.json({

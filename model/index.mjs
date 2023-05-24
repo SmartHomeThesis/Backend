@@ -9,9 +9,9 @@ import Device from './Device.mjs'
 dotenv.config()
 
 const sequelize = new Sequelize(
-    process.env.DB_URL,
+    'mysql://root:jwT0x6iQqpF9gQ01GfA2@containers-us-west-99.railway.app:7097/railway',
     {
-        host: process.env.DB_HOST,
+        host: 'containers-us-west-99.railway.app',
         dialect: 'mysql',
         pool: {
             max: 15,

@@ -52,7 +52,7 @@ const userController = {
     addPermissionForMember: async (req, res) => {
         try {
 
-            const user = await User.findOne({ where: { id: req.params.user_id } })
+            let user = await User.findOne({ where: { id: req.params.user_id }, include: Permission })
             await user.setPermissions([])
             const listOfPermission = req.body.permission
 
@@ -61,10 +61,11 @@ const userController = {
                 await user.addPermission(permission)
             }
 
+            let _user = await User.findOne({ where: { id: req.params.user_id }, include: Permission })
             res.json({
                 status: 200,
                 msg: 'SUCCESS',
-                data: user
+                data: _user
             })
         } catch (error) {
             res.status(500).json({ msg: error.message })

@@ -15,14 +15,35 @@ const Permission = db.permissions
 const userController = {
     getAllUsers: async (req, res) => {
         try {
-            const users = await User.findAll({ include: Permission })
-            if (!users) return res.status(404).json({ msg: 'Not found user' })
+            const sub_users = await User.findAll({ include: Permission })
+            const users = sub_users.filter((user) => {
+                return user.is_deleted == 0
+            })
+
+            if (users.length == 0) return res.status(404).json({ msg: 'Not found user' })
 
             res.json({
                 status: 200,
                 msg: 'SUCCESS',
                 data: users
             })
+        } catch (error) {
+            res.status(500).json({ msg: error.message })
+        }
+    },
+
+    deleteUserById: async (req, res) => {
+        try {
+            const user = await User.findByPk(req.params.id)
+            user.is_deleted = 1
+            await user.save()
+
+            res.json({
+                status: 200,
+                msg: "SUCCESS",
+                data: user
+            })
+
         } catch (error) {
             res.status(500).json({ msg: error.message })
         }

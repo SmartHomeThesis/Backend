@@ -7,6 +7,7 @@ const route = express.Router()
 
 route.get('/', verifyTokenAndHost, userController.getAllUsers)
 route.post('/send-invitation', verifyTokenAndHost, userController.inviteNewMember)
+route.post('/:id', userController.deleteUserById)
 
 route.get('/:id/permissions', userController.getPermissionOfMemberById)
 route.post('/:user_id/permissions', userController.addPermissionForMember)

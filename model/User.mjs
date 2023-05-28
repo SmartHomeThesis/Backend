@@ -21,6 +21,14 @@ export default (sequelize, DataTypes) => {
         role: {
             type: DataTypes.STRING,
             defaultValue: 'Host'
+        },
+        is_trained: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: 0
+        },
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: 0
         }
     }, { timestamps: false })
 

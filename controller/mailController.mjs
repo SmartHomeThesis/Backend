@@ -5,8 +5,8 @@ import nodemailer from 'nodemailer'
 const transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.MAIL_USERNAME,
-        pass: process.env.MAIL_PASSWORD
+        user: "hanh.huynhth34224002@hcmut.edu.vn",
+        pass: "zhbxwwjbfedtprws"
     }
 })
 
@@ -22,9 +22,8 @@ const mailController = {
     },
 
     sendInvitation: async (email, otp) => {
-        console.log(process.env.MAIL_USERNAME, process.env.MAIL_PASSWORD)
         await transport.sendMail({
-            from: process.env.MAIL_USERNAME,
+            from: "hanh.huynhth34224002@hcmut.edu.vn",
             to: email,
             subject: 'Invitation To My House',
             text: `You will use this otp to register new account: ${otp}`,

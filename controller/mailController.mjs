@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 
-console.log(process.env.MAIL_USERNAME, process.env.MAIL_PASSWORD)
+
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
@@ -22,6 +22,7 @@ const mailController = {
     },
 
     sendInvitation: async (email, otp) => {
+        console.log(process.env.MAIL_USERNAME, process.env.MAIL_PASSWORD)
         await transport.sendMail({
             from: process.env.MAIL_USERNAME,
             to: email,
